@@ -10,8 +10,9 @@ void printGame(int **);
 void computerMove(int **);
 void bestComputerMove(int **);
 int chooseMaximumTwo(int **,int tempRow , int tempCol);
+void checkResult(int **);
 
-//int m = 0;
+
 
 int main()
 {
@@ -53,32 +54,32 @@ int main()
     printf("\n 1 means Black \n 2 means White \n 3 means possible move\n ");
     printf("");
     
-        int choice;
-        printf("\nEnter (Black)1 or (white)2\n");
-        scanf("%d",&choice);
-        
-        switch (choice) {
-            case 1:
-                printf("\nYou choose Black(1) & computer is white(2)\n");
-                while (1) {
-                    
-                    checkForBlack(board);
-                }
+    int choice;
+    printf("\nEnter (Black)1 or (white)2\n");
+    scanf("%d",&choice);
+    
+    switch (choice) {
+        case 1:
+            printf("\nYou choose Black(1) & computer is white(2)\n");
+            while (1) {
                 
-                break;
-            case 2:
-                printf("\nYou choose white(2) & computer is Black(1)\n");
-                while (1) {
-                     checkForWhite(board);
-                }
-               
-                break;
-            default:
-                printf("Invalid choice");
-                break;
-              
-        
-        
+                checkForBlack(board);
+            }
+            
+            break;
+        case 2:
+            printf("\nYou choose white(2) & computer is Black(1)\n");
+            while (1) {
+                checkForWhite(board);
+            }
+            
+            break;
+        default:
+            printf("Invalid choice");
+            break;
+            
+            
+            
     }
     return 0;
 }
@@ -100,7 +101,7 @@ void checkForBlack(int **board)
                 }
                 else if( board[i][j+1] == 2)
                 {
-                     board[i][j+2] = 3;
+                    board[i][j+2] = 3;
                 }
                 //for vertical
                 if(board[i-1][j] == 2 )
@@ -119,7 +120,7 @@ void checkForBlack(int **board)
                 else if(board[i+1][j+1] == 2)
                 {
                     board[i+2][j+2] = 3;
-
+                    
                 }
                 else if( board[i-1][j-1] == 2)
                 {
@@ -138,7 +139,7 @@ void checkForBlack(int **board)
             
             
         }
-       
+        
     }
     //print updated board
     printGame(board);
@@ -149,6 +150,9 @@ void checkForBlack(int **board)
 void inputByBlack(int **board)
 {
     int locationRow,locationCol;
+    
+    //checkResult(board);
+    
     for(int i=0; i<ROW; i++)
     {
         for(int j=0; j<COL; j++)
@@ -156,7 +160,7 @@ void inputByBlack(int **board)
             if(board[i][j] == 3)
             {
                 printf("Possible moves at row %d and col %d\n",i,j);
-        
+                
             }
         }
         
@@ -172,18 +176,18 @@ void inputByBlack(int **board)
     {
         while (board[locationRow][locationCol] != 1)
         {
-        
+            
             board[locationRow][locationCol] = 1;
-        
+            
             locationRow++;
         }
     }
-        //vertical upwards
+    //vertical upwards
     else if(board[locationRow-1][locationCol] == 2)
     {
         locationRow = tempRow;
         locationCol = tempCol;
-
+        
         while (board[locationRow][locationCol] != 1)
         {
             
@@ -205,7 +209,7 @@ void inputByBlack(int **board)
             
             locationCol--;
         }
-
+        
     }
     
     
@@ -241,21 +245,21 @@ void inputByBlack(int **board)
         }
     }
     
-   else if(board[locationRow+1][locationCol-1] == 2)
-   {
-       locationRow = tempRow;
-       locationCol = tempCol;
-       
-       while (board[locationRow][locationCol] != 1)
-       {
-           
-           board[locationRow][locationCol] = 1;
-           
-           locationRow++;
-           locationCol--;
-       }
-
-   }
+    else if(board[locationRow+1][locationCol-1] == 2)
+    {
+        locationRow = tempRow;
+        locationCol = tempCol;
+        
+        while (board[locationRow][locationCol] != 1)
+        {
+            
+            board[locationRow][locationCol] = 1;
+            
+            locationRow++;
+            locationCol--;
+        }
+        
+    }
     
     
     else if(board[locationRow+1][locationCol+1] == 2)
@@ -271,7 +275,7 @@ void inputByBlack(int **board)
             locationRow++;
             locationCol++;
         }
-
+        
     }
     
     else if(board[locationRow-1][locationCol-1] == 2)
@@ -287,7 +291,7 @@ void inputByBlack(int **board)
             locationRow--;
             locationCol--;
         }
-
+        
     }
     
     for(int i=0; i<ROW; i++)
@@ -312,7 +316,7 @@ void inputByBlack(int **board)
 void computerMove(int **board)
 {
     
-    int i=0,j=0;
+    
     for(int i=0; i<ROW; i++)
     {
         for(int j=0; j<COL; j++)
@@ -374,11 +378,10 @@ void computerMove(int **board)
 void bestComputerMove(int **board)
 {
     
-    int arrayScore[10];
     int tempScore = 0;
     int i=0,j=0;
-    int tempRow,tempCol,currentScore,currentRow,CurrentCol;
-   
+    int tempRow = 0,tempCol = 0,currentScore = 0 ,currentRow = 0,CurrentCol = 0;
+    
     for( i=0; i<ROW; i++)
     {
         for( j=0; j<COL; j++)
@@ -387,8 +390,8 @@ void bestComputerMove(int **board)
             if(board[i][j] == 3)
             {
                 //store the best score
-               currentScore = chooseMaximumTwo(board,i,j);
-              
+                currentScore = chooseMaximumTwo(board,i,j);
+                
                 if(tempScore < currentScore)
                 {
                     tempScore = currentScore;
@@ -407,13 +410,10 @@ void bestComputerMove(int **board)
             
             
         }
-       
+        
     }
-    printf("currentScore %d\n",tempScore);
-    printf("temp row %d\n",tempRow);
-    printf("temp col %d\n",tempCol);
-    exit(1);
- 
+    
+    
     currentRow = tempRow;
     CurrentCol = tempCol;
     
@@ -433,7 +433,7 @@ void bestComputerMove(int **board)
     {
         currentRow = tempRow;
         CurrentCol = tempCol;
-
+        
         while (board[currentRow][CurrentCol] != 2)
         {
             
@@ -443,12 +443,12 @@ void bestComputerMove(int **board)
         }
     }
     //horizontal left
-   
+    
     else if(board[currentRow][CurrentCol-1] == 1)
     {
         currentRow = tempRow;
         CurrentCol = tempCol;
-
+        
         
         while (board[currentRow][CurrentCol] != 2)
         {
@@ -463,12 +463,12 @@ void bestComputerMove(int **board)
     
     
     //horizontal right
-   
+    
     else if(board[currentRow][CurrentCol+1] == 1)
     {
         currentRow = tempRow;
         CurrentCol = tempCol;
-
+        
         
         while (board[currentRow][CurrentCol] != 2)
         {
@@ -480,7 +480,7 @@ void bestComputerMove(int **board)
         
     }
     //diagonal
-   
+    
     else if(board[currentRow-1][CurrentCol+1] == 1)
     {
         
@@ -514,7 +514,7 @@ void bestComputerMove(int **board)
         
     }
     
-   
+    
     else if(board[currentRow+1][CurrentCol+1] == 1)
     {
         currentRow = tempRow;
@@ -530,7 +530,7 @@ void bestComputerMove(int **board)
         
     }
     
-   
+    
     else if(board[currentRow-1][CurrentCol-1] == 2)
     {
         currentRow = tempRow;
@@ -545,7 +545,7 @@ void bestComputerMove(int **board)
         }
         
     }
-
+    
     
     for(int i=0; i<ROW; i++)
     {
@@ -557,7 +557,7 @@ void bestComputerMove(int **board)
             }
         }
     }
-    printGame(board);
+    
     
     
     
@@ -568,10 +568,9 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
     int locationRow = tempRow;
     int locationCol = tempCol;
     int count = 0;
-    int arrayScore[20];
     int i=0,j=0;
     
-   
+    
     
     int **tempBoard = ( int ** )malloc( sizeof(int *) * ROW );
     
@@ -589,19 +588,35 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
             
         }
     }
-
+    
     if(tempBoard[locationRow+1][locationCol] == 1 )
     {
-        while (tempBoard[locationRow][locationCol] != 2  )
-        {
+        
+        int count = 0;
+        
+        while (locationRow+1 <= 9 ) {
             
-            tempBoard[locationRow][locationCol] = 2;
-           
+            if(tempBoard[locationRow+1][locationCol] == 2)
+            {
+                count++;
+            }
             locationRow++;
+        }
+        locationRow = tempRow;
+        locationCol = tempCol;
+        
+        if(count > 0)
+        {
+            while (tempBoard[locationRow][locationCol] != 2  )
+            {
+                
+                tempBoard[locationRow][locationCol] = 2;
+                
+                locationRow++;
+                
+            }
             
         }
-        
-        
         
     }
     //vertical upwards
@@ -610,12 +625,32 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
         locationRow = tempRow;
         locationCol = tempCol;
         
-        while (tempBoard[locationRow][locationCol] != 2)
+        int count = 0;
+        
+        while(locationRow-1 >= 0)
         {
-            
-            tempBoard[locationRow][locationCol] = 2;
-            
+            if(tempBoard[locationRow-1][locationCol] == 2)
+            {
+                count++;
+                
+            }
             locationRow--;
+        }
+        
+        locationRow = tempRow;
+        locationCol = tempCol;
+        
+        if(count > 0)
+        {
+            while (tempBoard[locationRow][locationCol] != 2)
+            {
+                
+                
+                
+                tempBoard[locationRow][locationCol] = 2;
+                
+                locationRow--;
+            }
         }
     }
     //horizontal left
@@ -624,14 +659,30 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
         locationRow = tempRow;
         locationCol = tempCol;
         
-        while (tempBoard[locationRow][locationCol] != 2)
-        {
+        int count = 0;
+        
+        while (locationCol-1 >= 0) {
             
-            tempBoard[locationRow][locationCol] = 2;
+            if(tempBoard[locationRow][locationCol-1] == 2)
+            {
+                count++;
+            }
             
             locationCol--;
         }
         
+        locationRow = tempRow;
+        locationCol = tempCol;
+        if(count > 0)
+        {
+            while (tempBoard[locationRow][locationCol] != 2)
+            {
+                
+                tempBoard[locationRow][locationCol] = 2;
+                
+                locationCol--;
+            }
+        }
     }
     
     
@@ -642,14 +693,29 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
         locationRow = tempRow;
         locationCol = tempCol;
         
-        while (tempBoard[locationRow][locationCol] != 2)
+        int count = 0;
+        
+        while(locationCol+1 <= 9)
         {
-            
-            tempBoard[locationRow][locationCol] = 2;
-            
+            if(tempBoard[locationRow][locationCol+1] == 2)
+            {
+                count++;
+            }
             locationCol++;
         }
+        locationRow = tempRow;
+        locationCol = tempCol;
         
+        if(count > 0)
+        {
+            while (tempBoard[locationRow][locationCol] != 2)
+            {
+                
+                tempBoard[locationRow][locationCol] = 2;
+                
+                locationCol++;
+            }
+        }
     }
     //diagonal
     else if(tempBoard[locationRow-1][locationCol+1] == 1)
@@ -657,14 +723,36 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
         locationRow = tempRow;
         locationCol = tempCol;
         
-        while (tempBoard[locationRow][locationCol] != 2)
+        int count = 0;
+        
+        while(locationRow-1 >= 0 && locationCol+1 <= 9)
         {
             
-            tempBoard[locationRow][locationCol] = 2;
+            if(tempBoard[locationRow-1][locationCol+1] == 2)
+            {
+                count++;
+            }
             
             locationRow--;
             locationCol++;
         }
+        locationRow = tempRow;
+        locationCol = tempCol;
+        if(count > 0)
+        {
+            while (tempBoard[locationRow][locationCol] != 2)
+            {
+                
+                tempBoard[locationRow][locationCol] = 2;
+                
+                locationRow--;
+                locationCol++;
+            }
+            
+            
+            
+        }
+        
     }
     
     else if(tempBoard[locationRow+1][locationCol-1] == 1)
@@ -672,14 +760,37 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
         locationRow = tempRow;
         locationCol = tempCol;
         
-        while (tempBoard[locationRow][locationCol] != 2)
+        int count = 0;
+        
+        while(locationRow+1 <= 9 && locationCol-1 >= 0)
         {
             
-            tempBoard[locationRow][locationCol] = 2;
+            if(tempBoard[locationRow+1][locationCol-1] == 2)
+            {
+                count++;
+            }
             
             locationRow++;
             locationCol--;
         }
+        locationRow = tempRow;
+        locationCol = tempCol;
+        
+        
+        if(count > 0)
+        {
+            
+            while (tempBoard[locationRow][locationCol] != 2)
+            {
+                
+                tempBoard[locationRow][locationCol] = 2;
+                
+                locationRow++;
+                locationCol--;
+            }
+            
+        }
+        
         
     }
     
@@ -689,14 +800,38 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
         locationRow = tempRow;
         locationCol = tempCol;
         
-        while (tempBoard[locationRow][locationCol] != 2)
+        int count = 0;
+        
+        while(locationRow+1 <= 9 && locationCol+1 <= 9)
         {
             
-            tempBoard[locationRow][locationCol] = 2;
+            if(tempBoard[locationRow+1][locationCol+1] == 2)
+            {
+                count++;
+            }
             
             locationRow++;
             locationCol++;
         }
+        locationRow = tempRow;
+        locationCol = tempCol;
+        
+        
+        if(count > 0)
+        {
+            while (tempBoard[locationRow][locationCol] != 2)
+            {
+                
+                tempBoard[locationRow][locationCol] = 2;
+                
+                locationRow++;
+                locationCol++;
+            }
+            
+            
+            
+        }
+        
         
     }
     
@@ -705,13 +840,36 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
         locationRow = tempRow;
         locationCol = tempCol;
         
-        while (tempBoard[locationRow][locationCol] != 2)
+        int count = 0;
+        
+        while(locationRow-1 >= 0 && locationCol-1 >= 0)
         {
             
-            tempBoard[locationRow][locationCol] = 2;
+            if(tempBoard[locationRow-1][locationCol-1] == 2)
+            {
+                count++;
+            }
             
             locationRow--;
             locationCol--;
+        }
+        locationRow = tempRow;
+        locationCol = tempCol;
+        
+        
+        if(count > 0)
+        {
+            while (tempBoard[locationRow][locationCol] != 2)
+            {
+                
+                tempBoard[locationRow][locationCol] = 2;
+                
+                locationRow--;
+                locationCol--;
+            }
+            
+            
+            
         }
         
     }
@@ -727,7 +885,7 @@ int chooseMaximumTwo(int **board,int tempRow , int tempCol)
         }
     }
     
- return count;
+    return count;
     
 }
 
@@ -791,7 +949,7 @@ void checkForWhite(int **board)
     }
     //print updated board
     printGame(board);
-
+    
 }
 
 void printGame(int **board)
@@ -805,10 +963,78 @@ void printGame(int **board)
             printf("  ");
         }
         printf("\n");
-
+        
     }
 }
 
 
+void checkResult(int **board)
+{
+    int i=0,j=0;
+    int count =0;
+    int playerCount = 0;
+    int computerCount = 0;
+    int flag = 0;
+    for(i=0; i<ROW; i++)
+    {
+        for(j=0; j<COL; j++)
+        {
+            if(board[i][j] == 1 || board[i][j] == 2 )
+            {
+                
+            }
+            else
+            {
+                count++;
+            }
+        }
+    }
+    
+    if(count == 0)
+    {
+        for(i=0; i<ROW; i++)
+        {
+            for(j=0; j<COL; j++)
+            {
+                
+                if(board[i][j] == 1)
+                {
+                    playerCount++;
+                }
+                else if (board[i][j] == 2)
+                {
+                    computerCount++;
+                }
+            }
+        }
+        
+    }
+    
+    for(i=0; i<ROW; i++)
+    {
+        for(j=0; j<COL; j++)
+        {
+            
+            if(board[i][j] == 0 || board[i][j] == 3)
+            {
+                flag = 1;
+            }
+        }
+    }
 
+    
+    if(flag != 1)
+    {
+        if(computerCount > playerCount)
+        {
+            printf("Computer wins\n");
+            exit(1);
+        }
+        else
+        {
+            printf("congratulations -->Player win");
+            exit(1);
+        }
+    }
+}
 
